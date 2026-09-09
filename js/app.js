@@ -1,8 +1,5 @@
 // ============================================================
 //  APP.JS — All interactive behavior for the demo dashboard.
-//  Depends on data.js and charts.js being loaded first.
-//  Everything here is local-only: localStorage + in-memory state.
-//  No network requests are made anywhere in this file.
 // ============================================================
 
 const LS_PREFIX = 'demoDash_';
@@ -845,11 +842,6 @@ document.addEventListener('keydown', function (e) {
 
 // ============================================================
 //  PROGRESS BAR WIDTHS
-//  Fixed: elements like .fill, .goal-fill, .compare-bar-fill, and
-//  .planner-progress-fill all carry a data-target="NN" attribute
-//  meant to become their width, but nothing was ever reading it —
-//  so every bar sat at its CSS default of 0% width, showing only
-//  the percentage text with no visible color fill.
 // ============================================================
 function initProgressBars() {
     document.querySelectorAll('[data-target]').forEach(el => {
