@@ -301,11 +301,36 @@ function closeAboutModal() {
 function showTimetable(branch, btn) {
     document.querySelectorAll('.timetable-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
-    document.getElementById('timetableContainer').innerHTML = `
+
+    const container = document.getElementById('timetableContainer');
+
+    if (branch === 'cse_a') {
+        // Real Sem 3 Sec A timetable — restore it if a placeholder overwrote it
+        container.innerHTML = `
+            <div class="timetable-grid-wrap">
+                <table class="timetable-grid">
+                    <thead>
+                        <tr><th>Day</th><th>9:00</th><th>9:55</th><th>11:00</th><th>11:55</th><th>2:15</th><th>3:10</th><th>4:05</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Mon</td><td>DSA</td><td>DSA</td><td>DDCO</td><td>OS</td><td colspan="3">DSL — A1 / GIT — A2</td></tr>
+                        <tr><td>Tue</td><td>DDCO</td><td>JAVA</td><td>DSA</td><td>DSP</td><td colspan="3">DSL — A2 / GIT — A1</td></tr>
+                        <tr><td>Wed</td><td>OS</td><td>JAVA</td><td>DSA</td><td>DDCO</td><td>DSP</td><td colspan="2">Community / Societal Project</td></tr>
+                        <tr><td>Thu</td><td>JAVA</td><td>OS</td><td>DSP</td><td>DDCO</td><td colspan="2">OOPS Lab</td><td>Yoga</td></tr>
+                        <tr><td>Fri</td><td>DSP</td><td>JAVA</td><td>OS</td><td>DDCO</td><td colspan="2">Library Visit</td><td>—</td></tr>
+                        <tr><td>Sat</td><td>OS</td><td>DSA</td><td>JAVA</td><td>DSP</td><td>—</td><td>—</td><td>—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="timetable-note">Break 10:50–11:00 · Lunch 12:50–2:15 · Lab batches: A1 = 01–29, A2 = 30–58</p>`;
+        return;
+    }
+
+    container.innerHTML = `
         <div class="placeholder-text">
             <i class="fas fa-image"></i>
-            <p>📸 Timetable for <strong>${branch.toUpperCase()}</strong></p>
-            <p class="sub">Add ${branch}_timetable.jpg to /images/</p>
+            <p>📸 Timetable for <strong>${branch.toUpperCase()}</strong> not added yet</p>
+            <p class="sub">Add ${branch}_timetable.jpg to /images/, or send the schedule and it can be added directly.</p>
         </div>`;
 }
 
@@ -550,7 +575,7 @@ function exportPDF() {
     const name = 'Viresh Ranjanagi';
     const usn = '3VC25CS107';
     const branch = 'Computer Science & Engineering';
-    const semester = 'II (2nd Semester)';
+    const semester = 'III (3rd Semester)';
     const date = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
     const overallAtt = getOverallAttendance().toFixed(1);
@@ -842,6 +867,11 @@ document.addEventListener('keydown', function (e) {
 
 // ============================================================
 //  PROGRESS BAR WIDTHS
+//  Fixed: elements like .fill, .goal-fill, .compare-bar-fill, and
+//  .planner-progress-fill all carry a data-target="NN" attribute
+//  meant to become their width, but nothing was ever reading it —
+//  so every bar sat at its CSS default of 0% width, showing only
+//  the percentage text with no visible color fill.
 // ============================================================
 function initProgressBars() {
     document.querySelectorAll('[data-target]').forEach(el => {
