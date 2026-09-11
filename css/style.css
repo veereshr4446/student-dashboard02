@@ -434,14 +434,27 @@ a { color: inherit; }
 .timetable-btn.active { border-color: var(--accent); background: var(--accent); color: #fff; }
 
 .timetable-container {
-    background: var(--bg-primary); border-radius: 10px; padding: 14px; text-align: center;
-    min-height: 100px; display: flex; align-items: center; justify-content: center;
+    background: var(--bg-primary); border-radius: 10px; padding: 14px;
+    min-height: 60px;
     border: 1.5px dashed var(--border-color); transition: all var(--transition);
 }
+.timetable-container .placeholder-text { text-align: center; padding: 20px 0; }
 .timetable-container img { max-width: 100%; max-height: 350px; border-radius: 8px; }
 .timetable-container .placeholder-text { color: var(--text-secondary); font-size: 13px; }
 .timetable-container .placeholder-text i { font-size: 30px; display: block; margin-bottom: 6px; opacity: 0.3; }
 .timetable-container .placeholder-text .sub { font-size: 11px; opacity: 0.5; }
+
+.timetable-grid-wrap { overflow-x: auto; }
+.timetable-grid { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 480px; }
+.timetable-grid th, .timetable-grid td {
+    border: 1px solid var(--border-color);
+    padding: 6px 8px;
+    text-align: center;
+    white-space: nowrap;
+}
+.timetable-grid th { background: var(--accent); color: #fff; font-weight: 700; font-size: 10px; }
+.timetable-grid td:first-child { font-weight: 700; background: var(--bg-primary); }
+.timetable-note { font-size: 10.5px; color: var(--text-secondary); margin-top: 8px; text-align: center; }
 
 /* ============================================================
    PAGE TOPBAR / TABS
