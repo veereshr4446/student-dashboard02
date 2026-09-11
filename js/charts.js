@@ -1,5 +1,6 @@
 // ============================================================
 //  CHARTS.JS — Chart.js setup for dashboard + analytics.
+//  Depends on data.js being loaded first (uses subjectsData).
 // ============================================================
 
 let attendanceChartInstance = null;
