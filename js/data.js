@@ -5,27 +5,33 @@
 //  Social Hub (search / leaderboard) demo.
 // ============================================================
 
-// ----- SUBJECTS (matches what's hardcoded in the dashboard HTML) -----
+// ----- SUBJECTS — Semester 3, Section A (updated from the official
+// timetable/course-handling sheet). No CIE marks exist for this semester
+// yet, so the old demo attendance/CIE numbers are carried over as
+// placeholders, just reassigned to these new subjects. -----
 const subjectsData = [
-    { code: '1BMATS201', name: 'Applied Mathematics-II', faculty: 'Mrs. Gangamma G', attendance: 84, cie: [25, 10, 15] },
-    { code: '1BCHES202', name: 'Applied Chemistry', faculty: 'Dr. N M Kottureshwara', attendance: 90, cie: [24, 23, 22] },
-    { code: '1BAIA203', name: 'Introduction to AI', faculty: 'Dr. Puneeth GJ', attendance: 88, cie: [23, 25, 24] },
-    { code: '1BESC204B', name: 'Intro to Electrical Engg', faculty: 'Mrs. Meenakshi', attendance: 85, cie: [20, 22, 21] },
-    { code: '1BPLC205B', name: 'Python Programming', faculty: 'Dr. Pampapathi BM', attendance: 82, cie: [22, 24, 23] },
-    { code: '1BENG206', name: 'Communication Skills', faculty: 'Mr. Rajishekar D', attendance: 83, cie: [21, 23, 22] },
-    { code: '1BICO207', name: 'Indian Constitution & Ethics', faculty: 'Mr. Manohar P', attendance: 78, cie: [18, 20, 19] },
-    { code: '1BPRJ258', name: 'Interdisciplinary Project', faculty: 'Dr. Puneeth GJ', attendance: 92, cie: [24, 25, 25] }
+    { code: '1BMATCS301', name: 'Distributions and Statistics Probability', faculty: 'Prof. G. Gangamma', attendance: 84, cie: [25, 10, 15] },
+    { code: '1BCS302', name: 'Object Oriented Programming with Java', faculty: 'Dr. H. Girisha', attendance: 90, cie: [24, 23, 22] },
+    { code: '1BCS303', name: 'Digital Design and Computer Organization', faculty: 'Prof. Radhika Y', attendance: 88, cie: [23, 25, 24] },
+    { code: '1BCS304', name: 'Operating Systems', faculty: 'Prof. Sharmila G K', attendance: 85, cie: [20, 22, 21] },
+    { code: '1BCS305', name: 'Data Structures and Applications', faculty: 'Prof. Rajeswari R.P', attendance: 82, cie: [22, 24, 23] },
+    { code: '1BCSL306', name: 'Data Structures Laboratory', faculty: 'Dr. Nagaveni Biradar', attendance: 83, cie: [21, 23, 22] },
+    { code: '1BCSL307A', name: 'Project Management (with Git)', faculty: 'Prof. Prasanna Kumar', attendance: 78, cie: [18, 20, 19] },
+    { code: '1BCP308', name: 'Community Project / Societal Project', faculty: 'Dr. H. Girisha', attendance: 92, cie: [24, 25, 25] }
 ];
 
-// ----- FACULTY (matches the Faculty page) -----
+// ----- FACULTY — Semester 3, Section A -----
+// Note: mobile numbers were in the official sheet but are deliberately
+// left out here — a student dashboard shouldn't publish teachers'
+// personal phone numbers, even in a demo.
 const facultyData = [
-    { name: 'Mrs. Gangamma G', subject: 'Applied Mathematics-II', dept: 'Mathematics', photo: '👩‍🏫' },
-    { name: 'Dr. N M Kottureshwara', subject: 'Applied Chemistry', dept: 'Chemistry', photo: '👨‍🏫' },
-    { name: 'Dr. Puneeth GJ', subject: 'Introduction to AI', dept: 'CSE', photo: '👨‍🏫' },
-    { name: 'Mrs. Meenakshi', subject: 'Intro to Electrical Engg', dept: 'EEE', photo: '👩‍🏫' },
-    { name: 'Dr. Pampapathi BM', subject: 'Python Programming', dept: 'CSE', photo: '👨‍🏫' },
-    { name: 'Mr. Rajishekar D', subject: 'Communication Skills', dept: 'English', photo: '👨‍🏫' },
-    { name: 'Mr. Manohar P', subject: 'Indian Constitution & Ethics', dept: 'Social Science', photo: '👨‍🏫' }
+    { name: 'Prof. G. Gangamma', subject: 'Distributions and Statistics Probability', dept: 'Mathematics', photo: '👩‍🏫' },
+    { name: 'Dr. H. Girisha', subject: 'Object Oriented Programming with Java', dept: 'CSE', photo: '👨‍🏫' },
+    { name: 'Prof. Radhika Y', subject: 'Digital Design and Computer Organization', dept: 'CSE', photo: '👩‍🏫' },
+    { name: 'Prof. Sharmila G K', subject: 'Operating Systems', dept: 'CSE', photo: '👩‍🏫' },
+    { name: 'Prof. Rajeswari R.P', subject: 'Data Structures and Applications', dept: 'CSE', photo: '👩‍🏫' },
+    { name: 'Dr. Nagaveni Biradar', subject: 'Data Structures Laboratory', dept: 'CSE', photo: '👩‍🏫' },
+    { name: 'Prof. Prasanna Kumar', subject: 'Project Management (with Git)', dept: 'CSE', photo: '👨‍🏫' }
 ];
 
 // ----- FICTIONAL CLASSMATES (Social Hub — search & leaderboard) -----
@@ -49,13 +55,14 @@ const groupsData = [
     { name: 'Chem Lab Prep Squad', subject: 'Applied Chemistry', members: 15, icon: '🧪', colorClass: 'group-icon-violet', joined: false }
 ];
 
-// ----- EXAM DATES (used by Notifications + Countdown tool) -----
+// ----- EXAM / SEMESTER DATES (from the official Sem 3 schedule; used by
+// Notifications + the Countdown tool. IA test dates weren't specified in
+// the source document, so they're not included here rather than guessed.) -----
 const examDates = [
-    { name: 'CIE-1', date: '2026-09-15' },
-    { name: 'CIE-2', date: '2026-10-05' },
-    { name: 'CIE-3', date: '2026-11-02' },
-    { name: 'Practical Exam', date: '2026-11-20' },
-    { name: 'Theory Exam', date: '2026-11-28' }
+    { name: 'Last Working Day of Semester', date: '2026-12-30' },
+    { name: 'VTU Theory Exams Begin', date: '2027-01-04' },
+    { name: 'Practical Examinations Begin', date: '2027-02-08' },
+    { name: 'Next Semester Commences', date: '2027-02-22' }
 ];
 
 // ----- GRADE POINTS (GPA calculator) -----
