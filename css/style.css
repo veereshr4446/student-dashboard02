@@ -748,6 +748,64 @@ a { color: inherit; }
 .social-links a .fa-instagram { color: #e4405f; }
 [data-theme="dark"] .social-links a .fa-github { color: #f1f5f9; }
 
+.dev-tags { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+.dev-tag {
+    background: var(--accent-light); color: var(--accent); font-weight: 700; font-size: 12px;
+    padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(79, 125, 243, 0.25);
+}
+
+/* ---- About Developer music widget (scoped to this modal only) ---- */
+@keyframes spinDisc { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.about-music-icon {
+    position: absolute; top: 16px; left: 18px; z-index: 5;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #6c63ff);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 18px; cursor: pointer;
+    box-shadow: 0 0 0 6px rgba(79, 125, 243, 0.15), 0 4px 14px rgba(79, 125, 243, 0.4);
+    transition: transform 0.2s;
+}
+.about-music-icon:hover { transform: scale(1.06); }
+.about-music-icon.playing i { animation: spinDisc 3s linear infinite; }
+
+.about-music-player {
+    display: none;
+    position: absolute; top: 70px; left: 18px; z-index: 6;
+    width: 250px;
+    background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    padding: 14px;
+    animation: fadeUp 0.2s ease;
+}
+.about-music-player.open { display: block; }
+
+.music-player-header { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; position: relative; }
+.music-artwork {
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent), #6c63ff);
+    display: flex; align-items: center; justify-content: center; color: #fff; font-size: 15px;
+}
+.music-artwork.playing { animation: spinDisc 3s linear infinite; }
+.music-info { flex: 1; min-width: 0; }
+.now-playing-label { font-size: 9px; font-weight: 800; color: var(--accent); letter-spacing: 0.06em; }
+.music-title { font-weight: 700; font-size: 13px; color: var(--text-primary); }
+.music-subtitle { font-size: 10.5px; color: var(--text-secondary); }
+.music-close-btn { position: absolute; top: -6px; right: -6px; background: none; border: none; color: var(--text-secondary); cursor: pointer; font-size: 15px; }
+.music-close-btn:hover { color: var(--danger-color); }
+
+.music-progress-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.music-time { font-size: 10px; color: var(--text-secondary); flex-shrink: 0; }
+.music-seek { flex: 1; accent-color: var(--accent); cursor: pointer; }
+.music-controls-row { display: flex; align-items: center; justify-content: space-between; }
+.music-status { font-size: 11px; color: var(--text-secondary); font-weight: 600; }
+.music-play-btn {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff;
+    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.15s;
+}
+.music-play-btn:hover { transform: scale(1.08); }
+
 /* ============================================================
    MODALS
    ============================================================ */
@@ -852,8 +910,8 @@ a { color: inherit; }
     .header { padding: 6px 10px; flex-wrap: nowrap; gap: 4px; }
     .header-left { gap: 4px; flex: 1; min-width: 0; overflow: hidden; }
     .hamburger span { width: 16px !important; height: 2px !important; }
-    .logo .student-name { font-size: 13px !important; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .logo .subtitle { font-size: 8px !important; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block !important; }
+    .logo .student-name { font-size: 13px !important; max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .logo .subtitle { font-size: 8px !important; max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block !important; }
     .header-right { gap: 2px; }
     .badge { font-size: 8px !important; padding: 2px 8px !important; }
     .theme-toggle, .search-btn { font-size: 14px !important; padding: 4px !important; }
