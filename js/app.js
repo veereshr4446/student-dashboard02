@@ -79,7 +79,8 @@ function toggleTheme() {
     const html = document.documentElement;
     const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', newTheme);
-    document.getElementById('themeIcon').className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    const icon = document.getElementById('themeIcon');
+    if (icon) icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     lsSet('theme', newTheme);
     updateChartColors();
     showToast('🌓 Theme toggled!');
@@ -87,7 +88,8 @@ function toggleTheme() {
 function loadTheme() {
     const saved = lsGet('theme', 'light');
     document.documentElement.setAttribute('data-theme', saved);
-    document.getElementById('themeIcon').className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    const icon = document.getElementById('themeIcon');
+    if (icon) icon.className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
 }
 
 // ============================================================
@@ -286,13 +288,95 @@ document.addEventListener('click', function (e) {
 });
 
 // ============================================================
-//  ABOUT DEVELOPER MODAL
+//  ABOUT DEVELOPER MODAL + MUSIC WIDGET
+//  Music is scoped entirely to this modal: it attempts to
+//  autoplay when the modal opens (falling back to "Tap play to
+//  listen" if the browser blocks autoplay), and it pauses and
+//  resets the moment the modal closes.
 // ============================================================
+let musicPlayerOpen = false;
+let seekDragging = false;
+
+function formatTime(sec) {
+    if (isNaN(sec) || sec === Infinity) return '0:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function setupMusicPlayer() {
+    const audio = document.getElementById('aboutAudio');
+    const icon = document.getElementById('aboutMusicIcon');
+    const artwork = document.getElementById('musicArtwork');
+    const playBtn = document.getElementById('musicPlayBtn');
+    const seek = document.getElementById('musicSeek');
+    const curTimeEl = document.getElementById('musicCurrentTime');
+    const durEl = document.getElementById('musicDuration');
+    const statusEl = document.getElementById('musicStatus');
+    if (!audio) return;
+
+    audio.addEventListener('loadedmetadata', () => {
+        durEl.textContent = formatTime(audio.duration);
+        seek.max = Math.floor(audio.duration) || 100;
+    });
+    audio.addEventListener('timeupdate', () => {
+        curTimeEl.textContent = formatTime(audio.currentTime);
+        if (!seekDragging) seek.value = Math.floor(audio.currentTime);
+    });
+    audio.addEventListener('play', () => {
+        icon.classList.add('playing');
+        artwork.classList.add('playing');
+        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        statusEl.textContent = 'Playing';
+    });
+    audio.addEventListener('pause', () => {
+        icon.classList.remove('playing');
+        artwork.classList.remove('playing');
+        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        if (statusEl.textContent !== 'Tap play to listen') statusEl.textContent = 'Paused';
+    });
+
+    seek.addEventListener('mousedown', () => { seekDragging = true; });
+    seek.addEventListener('touchstart', () => { seekDragging = true; });
+    seek.addEventListener('input', () => { curTimeEl.textContent = formatTime(seek.value); });
+    seek.addEventListener('change', () => {
+        audio.currentTime = seek.value;
+        seekDragging = false;
+    });
+}
+
+function toggleMusicPlayer() {
+    musicPlayerOpen = !musicPlayerOpen;
+    document.getElementById('aboutMusicPlayer').classList.toggle('open', musicPlayerOpen);
+}
+function closeMusicPlayer() {
+    musicPlayerOpen = false;
+    document.getElementById('aboutMusicPlayer').classList.remove('open');
+}
+function toggleMusicPlayback() {
+    const audio = document.getElementById('aboutAudio');
+    if (audio.paused) audio.play().catch(() => {}); else audio.pause();
+}
+
 function showAboutDeveloper() {
     document.getElementById('aboutModal').classList.add('active');
+    const audio = document.getElementById('aboutAudio');
+    const statusEl = document.getElementById('musicStatus');
+    if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(() => {
+            if (statusEl) statusEl.textContent = 'Tap play to listen';
+        });
+    }
 }
 function closeAboutModal() {
     document.getElementById('aboutModal').classList.remove('active');
+    const audio = document.getElementById('aboutAudio');
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+    closeMusicPlayer();
 }
 
 // ============================================================
@@ -898,6 +982,7 @@ document.addEventListener('DOMContentLoaded', function () {
     calcGpa();
     updateCountdown();
     countdownInterval = setInterval(updateCountdown, 1000);
+    setupMusicPlayer();
 
     pomoLoadState();
     pomoSyncModeButtons();
@@ -907,9 +992,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setTimeout(initDashboardCharts, 200);
 
-    ['aboutModal', 'ratingModal', 'facultyDetailModal', 'detailModal'].forEach(id => {
+    const overlayCloseHandlers = {
+        aboutModal: closeAboutModal,
+        ratingModal: closeRatingModal,
+        facultyDetailModal: closeFacultyDetail,
+        detailModal: closeModal
+    };
+    Object.keys(overlayCloseHandlers).forEach(id => {
         const overlay = document.getElementById(id);
-        if (overlay) overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+        if (overlay) overlay.addEventListener('click', (e) => { if (e.target === overlay) overlayCloseHandlers[id](); });
     });
 
     console.log('🚀 Student Dashboard demo ready — all local, no network calls.');
@@ -945,6 +1036,9 @@ window.closeFacultyDetail = closeFacultyDetail;
 window.submitFacultyRating = submitFacultyRating;
 window.showAboutDeveloper = showAboutDeveloper;
 window.closeAboutModal = closeAboutModal;
+window.toggleMusicPlayer = toggleMusicPlayer;
+window.closeMusicPlayer = closeMusicPlayer;
+window.toggleMusicPlayback = toggleMusicPlayback;
 window.showTimetable = showTimetable;
 window.fetchAttendance = fetchAttendance;
 window.setGoal = setGoal;
