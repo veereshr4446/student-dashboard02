@@ -109,9 +109,6 @@
                 <button class="search-btn" onclick="toggleSearch()" aria-label="Search">
                     <i class="fas fa-search"></i>
                 </button>
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
                 <span class="badge">Pro</span>
             </div>
         </header>
@@ -286,7 +283,9 @@
                             </div>
 
                         </div>
-                    
+
+                    </div>
+
                     <!-- ATTENDANCE WARNING -->
                     <div class="card" id="warningSection">
                         <div class="card-header">
@@ -1122,6 +1121,33 @@
     <div class="modal-overlay" id="aboutModal">
         <div class="modal" style="max-width:480px;">
             <button class="close-btn" onclick="closeAboutModal()">&times;</button>
+
+            <!-- Music widget — scoped entirely to this modal -->
+            <div class="about-music-icon" id="aboutMusicIcon" onclick="toggleMusicPlayer()" title="Lofi Focus">
+                <i class="fas fa-music"></i>
+            </div>
+            <div class="about-music-player" id="aboutMusicPlayer">
+                <div class="music-player-header">
+                    <div class="music-artwork" id="musicArtwork"><i class="fas fa-music"></i></div>
+                    <div class="music-info">
+                        <div class="now-playing-label">NOW PLAYING</div>
+                        <div class="music-title">Lofi Focus</div>
+                        <div class="music-subtitle">A little music for this profile ✨</div>
+                    </div>
+                    <button class="music-close-btn" onclick="closeMusicPlayer()">&times;</button>
+                </div>
+                <div class="music-progress-row">
+                    <span class="music-time" id="musicCurrentTime">0:00</span>
+                    <input type="range" id="musicSeek" class="music-seek" min="0" max="100" value="0">
+                    <span class="music-time" id="musicDuration">0:00</span>
+                </div>
+                <div class="music-controls-row">
+                    <span class="music-status" id="musicStatus">Playing</span>
+                    <button class="music-play-btn" id="musicPlayBtn" onclick="toggleMusicPlayback()"><i class="fas fa-pause"></i></button>
+                </div>
+                <audio id="aboutAudio" src="audio/lofi-focus.mp3" preload="none" loop></audio>
+            </div>
+
             <div class="developer-card">
                 <div class="dev-avatar">V</div>
                 <div class="dev-name">VIRESH RANJANAGI</div>
@@ -1132,6 +1158,11 @@
                     <span style="font-size: 13px; color: var(--text-secondary);">
                         Building the future, one line of code at a time. 💻
                     </span>
+                </div>
+                <div class="dev-tags">
+                    <span class="dev-tag">💻 Full-Stack</span>
+                    <span class="dev-tag">🎓 Student</span>
+                    <span class="dev-tag">🚀 Builder</span>
                 </div>
                 <div class="social-links">
                     <a href="https://github.com/veereshr4446" target="_blank">
