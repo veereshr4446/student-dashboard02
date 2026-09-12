@@ -35,6 +35,11 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
 body {
     font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
     background: var(--bg-primary);
@@ -43,6 +48,7 @@ body {
     transition: background var(--transition), color var(--transition);
     min-height: 100vh;
     overflow-x: hidden;
+    max-width: 100vw;
 }
 
 .container { max-width: 1240px; margin: 0 auto; }
