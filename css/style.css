@@ -951,6 +951,20 @@ a { color: inherit; }
 
     .compare-name { width: 72px; font-size: 11px; }
 
+    /* Timetable — on mobile, let long merged-cell labels wrap
+       (instead of forcing them onto one line) so the table can
+       shrink to fit the real screen width. The nowrap + 480px
+       min-width that works on desktop was the actual cause of
+       some mobile browsers zooming the whole page out to fit it. */
+    .timetable-grid { min-width: 0; table-layout: fixed; }
+    .timetable-grid th, .timetable-grid td {
+        white-space: normal;
+        font-size: 9px;
+        padding: 4px 3px;
+        word-break: break-word;
+    }
+    .timetable-note { font-size: 9px; }
+
     /* GPA calculator — stack Subject on its own row, with
        Credits / Grade / Delete on a second row beneath it,
        instead of squeezing 4 columns into a narrow screen. */
