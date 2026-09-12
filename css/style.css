@@ -636,7 +636,7 @@ a { color: inherit; }
 .pomo-mode-btn.active { border-color: var(--accent); background: var(--accent); color: #fff; }
 
 .pomo-timer-circle { position: relative; width: 220px; height: 220px; margin: 0 auto; }
-.pomo-timer-circle svg { transform: rotate(-90deg); }
+.pomo-timer-circle svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .pomo-timer-circle .bg { fill: none; stroke: var(--border-color); stroke-width: 6; }
 .pomo-timer-circle .progress { fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease, stroke 0.5s ease; }
 
